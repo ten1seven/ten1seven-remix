@@ -3,8 +3,15 @@ import { gql } from 'graphql-request'
 
 import { client } from '~/lib/graphql-client'
 
-const GetAllProjects = gql`
+const GetAllContent = gql`
   {
+    pageBy(uri: "home") {
+      title
+      page {
+        intro
+        content
+      }
+    }
     portfolio(first: 4, where: { orderby: { field: TITLE, order: ASC } }) {
       edges {
         node {
@@ -17,9 +24,9 @@ const GetAllProjects = gql`
 `
 
 export let loader = async () => {
-  const { portfolio } = await client.request(GetAllProjects)
+  const { pageBy, portfolio } = await client.request(GetAllContent)
 
-  return json({ portfolio })
+  return json({ pageBy, portfolio })
 }
 
 export let meta = () => {
@@ -30,7 +37,7 @@ export let meta = () => {
 }
 
 export default function Index() {
-  let { portfolio } = useLoaderData()
+  let { pageBy, portfolio } = useLoaderData()
 
   return (
     <>
@@ -47,6 +54,8 @@ export default function Index() {
           </li>
         ))}
       </ul>
+
+      <div dangerouslySetInnerHTML={{ __html: pageBy.page.content }} />
     </>
   )
 }
