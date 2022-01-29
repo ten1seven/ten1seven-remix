@@ -2,6 +2,7 @@ import {
   Links,
   LiveReload,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -21,6 +22,13 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <nav>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/work">Work</NavLink>
+          <NavLink to="/services">Services</NavLink>
+          <NavLink to="/about">About</NavLink>
+        </nav>
+
         <Outlet />
         <ScrollRestoration />
         <Scripts />
