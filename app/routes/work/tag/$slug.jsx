@@ -4,15 +4,8 @@ import { gql } from 'graphql-request'
 import { client } from '~/lib/graphql-client'
 
 const GetAllContent = gql`
-  {
-    pageBy(uri: "work") {
-      title
-      page {
-        intro
-        content
-      }
-    }
-    tags(where: { hideEmpty: false, orderby: NAME }) {
+  query GetAllContent($uri: String!) {
+    tagList: tags(where: { hideEmpty: false, orderby: NAME }) {
       edges {
         node {
           name
@@ -21,7 +14,10 @@ const GetAllContent = gql`
         }
       }
     }
-    portfolio(first: 99, where: { orderby: { field: TITLE, order: ASC } }) {
+    portfolio(
+      first: 99
+      where: { tag: $uri, orderby: { field: TITLE, order: ASC } }
+    ) {
       edges {
         node {
           title
@@ -38,10 +34,12 @@ const GetAllContent = gql`
   }
 `
 
-export let loader = async () => {
-  const { pageBy, tags, portfolio } = await client.request(GetAllContent)
+export let loader = async ({ params }) => {
+  const { tagList, portfolio } = await client.request(GetAllContent, {
+    uri: `${params.slug}`,
+  })
 
-  return json({ pageBy, tags, portfolio })
+  return json({ tagList, portfolio, params })
 }
 
 export let meta = () => {
@@ -52,20 +50,16 @@ export let meta = () => {
 }
 
 export default function Work() {
-  let { pageBy, tags, portfolio } = useLoaderData()
+  let { tagList, portfolio, params } = useLoaderData()
 
   return (
     <>
       <h1>Work</h1>
 
-      <p>{pageBy.page.intro}</p>
-
-      <div dangerouslySetInnerHTML={{ __html: pageBy.page.content }} />
-
-      <pre>{JSON.stringify(tags, null, 2)}</pre>
+      <pre>{JSON.stringify(tagList, null, 2)}</pre>
 
       <ul>
-        {tags.edges.map(({ node }) => (
+        {tagList.edges.map(({ node }) => (
           <li key={node.uri}>
             <Link to={`/work${node.uri}`} prefetch="intent">
               {node.name}
