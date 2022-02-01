@@ -8,6 +8,8 @@ import {
   ScrollRestoration,
 } from 'remix'
 
+import 'what-input'
+
 export function meta() {
   return { title: 'Ten 1 Seven Studio' }
 }
