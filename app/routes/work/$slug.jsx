@@ -14,6 +14,15 @@ const GetWorkByUri = gql`
         displayUrl
         website
       }
+      tags {
+        edges {
+          node {
+            name
+            slug
+            uri
+          }
+        }
+      }
     }
   }
 `
@@ -26,9 +35,16 @@ export let loader = async ({ params }) => {
   return json({ workBy })
 }
 
-export let meta = () => {
+export let meta = ({ data }) => {
+  if (!data) {
+    return {
+      title: 'Ten 1 Seven Studio',
+      description: '',
+    }
+  }
+
   return {
-    title: 'Front-End Development | Ten 1 Seven Studio',
+    title: ` ${data.workBy.title} | Ten 1 Seven Studio`,
     description: '',
   }
 }
@@ -41,6 +57,16 @@ export default function Index() {
       <h1>{workBy.title} | Ten1Seven Studio</h1>
 
       <pre>{JSON.stringify(workBy, null, 2)}</pre>
+
+      <ul>
+        {workBy.tags.edges.map(({ node }) => (
+          <li key={node.uri}>
+            <Link to={`/work${node.uri}`} prefetch="intent">
+              {node.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </>
   )
 }

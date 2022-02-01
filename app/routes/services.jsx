@@ -43,7 +43,7 @@ export default function Services() {
       <p>{pageBy.page.intro}</p>
 
       {pageBy.services.servicesList.map((item, index) => (
-        <div key={item.id}>
+        <div key={index}>
           <h3>{item.serviceTitle}</h3>
           <div dangerouslySetInnerHTML={{ __html: item.description }} />
         </div>

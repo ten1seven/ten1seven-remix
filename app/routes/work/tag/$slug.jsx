@@ -4,7 +4,7 @@ import { gql } from 'graphql-request'
 import { client } from '~/lib/graphql-client'
 
 const GetAllContent = gql`
-  query GetAllContent($uri: String!) {
+  query GetAllContent($slug: [String] = null, $tag: String!) {
     tagList: tags(where: { hideEmpty: false, orderby: NAME }) {
       edges {
         node {
@@ -14,9 +14,18 @@ const GetAllContent = gql`
         }
       }
     }
-    portfolio(
+    currentTag: tags(where: { slug: $slug }) {
+      edges {
+        node {
+          name
+          uri
+          slug
+        }
+      }
+    }
+    workList: portfolio(
       first: 99
-      where: { tag: $uri, orderby: { field: TITLE, order: ASC } }
+      where: { tag: $tag, orderby: { field: TITLE, order: ASC } }
     ) {
       edges {
         node {
@@ -24,8 +33,10 @@ const GetAllContent = gql`
           uri
           work {
             thumbnail {
-              sizes
-              srcSet
+              altText
+              mediaDetails {
+                file
+              }
             }
           }
         }
@@ -35,45 +46,64 @@ const GetAllContent = gql`
 `
 
 export let loader = async ({ params }) => {
-  const { tagList, portfolio } = await client.request(GetAllContent, {
-    uri: `${params.slug}`,
-  })
+  const { tagList, currentTag, workList } = await client.request(
+    GetAllContent,
+    {
+      slug: `${params.slug}`,
+      tag: `${params.slug}`,
+    }
+  )
 
-  return json({ tagList, portfolio, params })
+  return json({ tagList, currentTag, workList })
 }
 
-export let meta = () => {
+export let meta = ({ data }) => {
+  if (!data) {
+    return {
+      title: 'Ten 1 Seven Studio',
+      description: '',
+    }
+  }
+
   return {
-    title: 'Work | Ten 1 Seven Studio',
+    title: ` ${data.currentTag.edges[0].node.name} | Ten 1 Seven Studio`,
     description: '',
   }
 }
 
 export default function Work() {
-  let { tagList, portfolio, params } = useLoaderData()
+  let { tagList, currentTag, workList } = useLoaderData()
 
   return (
     <>
-      <h1>Work</h1>
-
-      <pre>{JSON.stringify(tagList, null, 2)}</pre>
+      <h1>Work {currentTag.edges[0].node.name}</h1>
 
       <ul>
         {tagList.edges.map(({ node }) => (
           <li key={node.uri}>
-            <Link to={`/work${node.uri}`} prefetch="intent">
-              {node.name}
-            </Link>
+            {currentTag.edges[0].node.slug === node.slug ? (
+              <>{node.name}</>
+            ) : (
+              <Link to={`/work${node.uri}`} prefetch="intent">
+                {node.name}
+              </Link>
+            )}
           </li>
         ))}
       </ul>
 
-      <pre>{JSON.stringify(portfolio, null, 2)}</pre>
-
       <ul>
-        {portfolio.edges.map(({ node }) => (
+        {workList.edges.map(({ node }) => (
           <li key={node.uri}>
             <Link to={`${node.uri}`} prefetch="intent">
+              <img
+                src={`https://ten1seven.imgix.net/${node.work.thumbnail.mediaDetails.file}?auto=format,compress&fit=crop&crop=center,top&w=260&h=215`}
+                alt={node.work.thumbnail.altText}
+                height="215"
+                width="260"
+                loading="lazy"
+              />
+
               {node.title}
             </Link>
           </li>
