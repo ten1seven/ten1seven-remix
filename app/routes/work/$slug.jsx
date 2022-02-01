@@ -13,10 +13,22 @@ const GetWorkByUri = gql`
         description
         displayUrl
         website
+        images {
+          image {
+            altText
+            id
+            mediaDetails {
+              file
+              height
+              width
+            }
+          }
+        }
       }
       tags {
         edges {
           node {
+            id
             name
             slug
             uri
@@ -58,12 +70,35 @@ export default function Index() {
 
       <pre>{JSON.stringify(workBy, null, 2)}</pre>
 
+      <p>{workBy.work.client}</p>
+      <p>
+        <a href={workBy.work.website}>{workBy.work.displayUrl}</a>
+      </p>
+
+      <div dangerouslySetInnerHTML={{ __html: workBy.work.description }} />
+
       <ul>
         {workBy.tags.edges.map(({ node }) => (
-          <li key={node.uri}>
+          <li key={node.id}>
             <Link to={`/work${node.uri}`} prefetch="intent">
               {node.name}
             </Link>
+          </li>
+        ))}
+      </ul>
+
+      <pre>{JSON.stringify(workBy.work.images, null, 2)}</pre>
+
+      <ul>
+        {workBy.work.images.map(({ image }) => (
+          <li key={image.id}>
+            <img
+              src={`https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress`}
+              alt={image.altText}
+              height={image.mediaDetails.height}
+              width={image.mediaDetails.width}
+              loading="lazy"
+            />
           </li>
         ))}
       </ul>
