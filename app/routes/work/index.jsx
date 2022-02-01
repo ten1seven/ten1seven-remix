@@ -28,8 +28,10 @@ const GetAllContent = gql`
           uri
           work {
             thumbnail {
-              sizes
-              srcSet
+              altText
+              mediaDetails {
+                file
+              }
             }
           }
         }
@@ -62,8 +64,6 @@ export default function Work() {
 
       <div dangerouslySetInnerHTML={{ __html: pageBy.page.content }} />
 
-      <pre>{JSON.stringify(tags, null, 2)}</pre>
-
       <ul>
         {tags.edges.map(({ node }) => (
           <li key={node.uri}>
@@ -74,12 +74,18 @@ export default function Work() {
         ))}
       </ul>
 
-      <pre>{JSON.stringify(portfolio, null, 2)}</pre>
-
       <ul>
         {portfolio.edges.map(({ node }) => (
           <li key={node.uri}>
             <Link to={`${node.uri}`} prefetch="intent">
+              <img
+                src={`https://ten1seven.imgix.net/${node.work.thumbnail.mediaDetails.file}?auto=format,compress&fit=crop&crop=center,top&w=260&h=215`}
+                alt={node.work.thumbnail.altText}
+                height="215"
+                width="260"
+                loading="lazy"
+              />
+
               {node.title}
             </Link>
           </li>
