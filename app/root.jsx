@@ -1,16 +1,18 @@
 import {
   Links,
-  Link,
   LiveReload,
   Meta,
-  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from 'remix'
 
 import tailwindStyles from './index.css'
 import 'what-input'
+
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 export function meta() {
   return { title: 'Ten 1 Seven Studio' }
@@ -57,69 +59,76 @@ export default function App() {
       </head>
       <body>
         <div className="max-w-900 m-auto">
-          <nav>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/work">Work</NavLink>
-            <NavLink to="/services">Services</NavLink>
-            <NavLink to="/about">About</NavLink>
-          </nav>
+          <Header />
 
           <main className="bg-white p-6 sm:p-8 md:p-10">
             <Outlet />
           </main>
 
-          <footer
-            className="
-        footer
-        font-sans
-        pt-4
-        px-6 sm:px-0
-        text-gray-medium
-        text-xs"
-          >
-            <p
-              className="
-          border-t-2 sm:border-t-0
-          border-gray-light
-          pt-4 sm:pt-0
-          md:flex"
-            >
-              <NavLink className="pr-4" to="/">
-                Home
-              </NavLink>
-              <NavLink className="pr-4" to="/work">
-                Work
-              </NavLink>
-              <NavLink className="pr-4" to="/services">
-                Services
-              </NavLink>
-              <NavLink className="pr-4" to="/about">
-                About
-              </NavLink>
-            </p>
-
-            <p className="mt-4 md:mt-0 md:text-right">
-              <Link className="font-bold" to="/">
-                Ten 1 Seven Studio
-              </Link>{' '}
-              is located in{' '}
-              <a
-                className="font-bold"
-                href="https://en.wikipedia.org/wiki/Longmont,_CO"
-              >
-                Longmont, Colorado
-              </a>
-              .
-              <br />
-              Copyright &copy; 2002 - {new Date().getFullYear()}. All rights
-              reserved.
-            </p>
-          </footer>
+          <Footer />
         </div>
 
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
+      </body>
+    </html>
+  )
+}
+
+// 404
+export function CatchBoundary() {
+  const caught = useCatch()
+
+  return (
+    <html dir="ltr" lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Meta />
+        <Links />
+        <title>{caught.statusText}</title>
+      </head>
+      <body>
+        <Header />
+
+        <main className="bg-white p-6 sm:p-8 md:p-10">
+          <CatchError errorText={caught.statusText} />
+        </main>
+
+        <Footer />
+
+        <Scripts />
+      </body>
+    </html>
+  )
+}
+
+// Uncaught exception
+export function ErrorBoundary({ error }) {
+  console.error(error)
+
+  const errorText = 'Whoops!'
+
+  return (
+    <html dir="ltr" lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Meta />
+        <Links />
+        <title>{errorText}</title>
+      </head>
+      <body>
+        <Header />
+
+        <main className="bg-white p-6 sm:p-8 md:p-10">
+          <CatchError errorText={errorText} />
+        </main>
+
+        <Footer />
+
+        <Scripts />
       </body>
     </html>
   )

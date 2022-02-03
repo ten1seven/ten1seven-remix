@@ -3,6 +3,8 @@ import { gql } from 'graphql-request'
 
 import { client } from '~/lib/graphql-client'
 
+import PageTitle from '../../components/PageTitle'
+
 const GetWorkByUri = gql`
   query GetWorkByUri($uri: String!) {
     workBy(uri: $uri) {
@@ -66,7 +68,7 @@ export default function Index() {
 
   return (
     <>
-      <h1>{workBy.title} | Ten1Seven Studio</h1>
+      <PageTitle link="/work" breadcrumb="Work" title={workBy.title} />
 
       <pre>{JSON.stringify(workBy, null, 2)}</pre>
 
@@ -75,7 +77,12 @@ export default function Index() {
         <a href={workBy.work.website}>{workBy.work.displayUrl}</a>
       </p>
 
-      <div dangerouslySetInnerHTML={{ __html: workBy.work.description }} />
+      {!!workBy.work.description && (
+        <div
+          className="wysiwyg"
+          dangerouslySetInnerHTML={{ __html: workBy.work.description }}
+        />
+      )}
 
       <ul>
         {workBy.tags.edges.map(({ node }) => (
