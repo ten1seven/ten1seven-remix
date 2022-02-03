@@ -3,6 +3,8 @@ import { gql } from 'graphql-request'
 
 import { client } from '~/lib/graphql-client'
 
+import PageTitle from '../../components/PageTitle'
+
 const GetAllContent = gql`
   query GetAllContent($slug: [String] = null, $tag: String!) {
     tagList: tags(where: { hideEmpty: false, orderby: NAME }) {
@@ -76,7 +78,11 @@ export default function Work() {
 
   return (
     <>
-      <h1>Work {currentTag.edges[0].node.name}</h1>
+      <PageTitle
+        link="/work"
+        breadcrumb="Work"
+        title={currentTag.edges[0].node.name}
+      />
 
       <ul>
         {tagList.edges.map(({ node }) => (

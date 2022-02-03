@@ -55,7 +55,12 @@ export default function Index() {
         ))}
       </ul>
 
-      <div dangerouslySetInnerHTML={{ __html: pageBy.page.content }} />
+      {!!pageBy.page.content && (
+        <div
+          className="wysiwyg"
+          dangerouslySetInnerHTML={{ __html: pageBy.page.content }}
+        />
+      )}
     </>
   )
 }

@@ -3,6 +3,8 @@ import { gql } from 'graphql-request'
 
 import { client } from '~/lib/graphql-client'
 
+import PageTitle from '../components/PageTitle'
+
 const GetAllContent = gql`
   {
     pageBy(uri: "services") {
@@ -39,7 +41,8 @@ export default function Services() {
 
   return (
     <>
-      <h1>Services</h1>
+      <PageTitle link="/" breadcrumb="Home" title={pageBy.title} />
+
       <p>{pageBy.page.intro}</p>
 
       {pageBy.services.servicesList.map((item, index) => (

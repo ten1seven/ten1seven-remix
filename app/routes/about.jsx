@@ -3,6 +3,8 @@ import { gql } from 'graphql-request'
 
 import { client } from '~/lib/graphql-client'
 
+import PageTitle from '../components/PageTitle'
+
 const GetAllContent = gql`
   {
     pageBy(uri: "about") {
@@ -33,11 +35,16 @@ export default function About() {
 
   return (
     <>
-      <h1>About</h1>
+      <PageTitle link="/" breadcrumb="Home" title={pageBy.title} />
 
       <p>{pageBy.page.intro}</p>
 
-      <div dangerouslySetInnerHTML={{ __html: pageBy.page.content }} />
+      {!!pageBy.page.content && (
+        <div
+          className="wysiwyg"
+          dangerouslySetInnerHTML={{ __html: pageBy.page.content }}
+        />
+      )}
     </>
   )
 }
