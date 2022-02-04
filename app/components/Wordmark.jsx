@@ -1,4 +1,4 @@
-// src/components/Wordmark.js
+// src/components/Wordmark.jsx
 
 const Wordmark = () => {
   return (

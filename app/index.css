@@ -468,8 +468,25 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-sepia:  ;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .m-auto {
   margin: auto;
+}
+
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .mt-4 {
@@ -500,12 +517,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   flex-direction: column;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .justify-center {
   justify-content: center;
 }
 
 .border-t-2 {
   border-top-width: 2px;
+}
+
+.border-b {
+  border-bottom-width: 1px;
 }
 
 .border-b-2 {
@@ -539,8 +564,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-right: 1rem;
 }
 
+.pb-8 {
+  padding-bottom: 2rem;
+}
+
 .pb-4 {
   padding-bottom: 1rem;
+}
+
+.pr-3 {
+  padding-right: 0.75rem;
 }
 
 .font-sans {
@@ -554,6 +587,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .text-lg {
   font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
@@ -572,6 +610,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .leading-none {

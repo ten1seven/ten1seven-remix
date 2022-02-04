@@ -1,4 +1,4 @@
-// src/components/NavigationLink.js
+// src/components/NavigationLink.jsx
 
 import { NavLink } from 'remix'
 

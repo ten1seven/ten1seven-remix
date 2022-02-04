@@ -4,6 +4,7 @@ import { gql } from 'graphql-request'
 import { client } from '~/lib/graphql-client'
 
 import PageTitle from '../components/PageTitle'
+import PageIntro from '../components/PageIntro'
 
 const GetAllContent = gql`
   {
@@ -36,8 +37,7 @@ export default function About() {
   return (
     <>
       <PageTitle link="/" breadcrumb="Home" title={pageBy.title} />
-
-      <p>{pageBy.page.intro}</p>
+      <PageIntro intro={pageBy.page.intro} />
 
       {!!pageBy.page.content && (
         <div

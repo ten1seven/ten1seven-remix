@@ -1,4 +1,4 @@
-// src/components/Header.js
+// src/components/Header.jsx
 
 import { Link } from 'remix'
 

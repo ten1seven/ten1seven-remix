@@ -1,4 +1,4 @@
-// src/components/Footer.js
+// src/components/Footer.jsx
 
 import { Link } from 'remix'
 

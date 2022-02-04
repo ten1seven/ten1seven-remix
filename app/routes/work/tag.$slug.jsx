@@ -4,6 +4,7 @@ import { gql } from 'graphql-request'
 import { client } from '~/lib/graphql-client'
 
 import PageTitle from '../../components/PageTitle'
+import TagList from '../../components/TagList'
 
 const GetAllContent = gql`
   query GetAllContent($slug: [String] = null, $tag: String!) {
@@ -84,19 +85,7 @@ export default function Work() {
         title={currentTag.edges[0].node.name}
       />
 
-      <ul>
-        {tagList.edges.map(({ node }) => (
-          <li key={node.uri}>
-            {currentTag.edges[0].node.slug === node.slug ? (
-              <>{node.name}</>
-            ) : (
-              <Link to={`/work${node.uri}`} prefetch="intent">
-                {node.name}
-              </Link>
-            )}
-          </li>
-        ))}
-      </ul>
+      <TagList tags={tagList.edges} currentTag={currentTag.edges[0].node} />
 
       <ul>
         {workList.edges.map(({ node }) => (

@@ -1,4 +1,4 @@
-// src/components/PageTitle.js
+// src/components/PageTitle.jsx
 
 import { Link } from 'remix'
 

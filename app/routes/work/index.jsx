@@ -4,6 +4,8 @@ import { gql } from 'graphql-request'
 import { client } from '~/lib/graphql-client'
 
 import PageTitle from '../../components/PageTitle'
+import PageIntro from '../../components/PageIntro'
+import TagList from '../../components/TagList'
 
 const GetAllContent = gql`
   {
@@ -61,8 +63,7 @@ export default function Work() {
   return (
     <>
       <PageTitle link="/" breadcrumb="Home" title={pageBy.title} />
-
-      <p>{pageBy.page.intro}</p>
+      <PageIntro intro={pageBy.page.intro} />
 
       {!!pageBy.page.content && (
         <div
@@ -71,15 +72,7 @@ export default function Work() {
         />
       )}
 
-      <ul>
-        {tags.edges.map(({ node }) => (
-          <li key={node.uri}>
-            <Link to={`/work${node.uri}`} prefetch="intent">
-              {node.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <TagList tags={tags.edges} currentTag="" />
 
       <ul>
         {portfolio.edges.map(({ node }) => (
