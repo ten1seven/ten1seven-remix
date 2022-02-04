@@ -5,6 +5,7 @@ import { client } from '~/lib/graphql-client'
 
 import PageTitle from '../../components/PageTitle'
 import TagList from '../../components/TagList'
+import WorkThumbnails from '../../components/WorkThumbnails'
 
 const GetAllContent = gql`
   query GetAllContent($slug: [String] = null, $tag: String!) {
@@ -86,24 +87,7 @@ export default function Work() {
       />
 
       <TagList tags={tagList.edges} currentTag={currentTag.edges[0].node} />
-
-      <ul>
-        {workList.edges.map(({ node }) => (
-          <li key={node.uri}>
-            <Link to={`${node.uri}`} prefetch="intent">
-              <img
-                src={`https://ten1seven.imgix.net/${node.work.thumbnail.mediaDetails.file}?auto=format,compress&fit=crop&crop=center,top&w=260&h=215`}
-                alt={node.work.thumbnail.altText}
-                height="215"
-                width="260"
-                loading="lazy"
-              />
-
-              {node.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <WorkThumbnails thumbnails={workList.edges} classes="my-8" />
     </>
   )
 }

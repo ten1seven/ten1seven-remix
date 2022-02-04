@@ -3,6 +3,8 @@ import { gql } from 'graphql-request'
 
 import { client } from '~/lib/graphql-client'
 
+import WorkThumbnails from '../components/WorkThumbnails'
+
 const GetAllContent = gql`
   {
     pageBy(uri: "home") {
@@ -17,6 +19,14 @@ const GetAllContent = gql`
         node {
           title
           uri
+          work {
+            thumbnail {
+              altText
+              mediaDetails {
+                file
+              }
+            }
+          }
         }
       }
     }
@@ -41,19 +51,14 @@ export default function Index() {
 
   return (
     <>
-      <h1>Ten1Seven Studio</h1>
-
-      <pre>{JSON.stringify(portfolio, null, 2)}</pre>
-
-      <ul>
-        {portfolio.edges.map(({ node }) => (
-          <li key={node.uri}>
-            <Link to={`${node.uri}`} prefetch="intent">
-              {node.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <WorkThumbnails
+        thumbnails={portfolio.edges}
+        classes="homepage-work
+        border-b
+        border-gray-light
+        my-8
+        pb-8"
+      />
 
       {!!pageBy.page.content && (
         <div
