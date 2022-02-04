@@ -45,12 +45,20 @@ export default function Services() {
       <PageTitle link="/" breadcrumb="Home" title={pageBy.title} />
       <PageIntro intro={pageBy.page.intro} />
 
-      {pageBy.services.servicesList.map((item, index) => (
-        <div key={index}>
-          <h3>{item.serviceTitle}</h3>
-          <div dangerouslySetInnerHTML={{ __html: item.description }} />
-        </div>
-      ))}
+      <ul className="my-8">
+        {pageBy.services.servicesList.map((item, index) => (
+          <li
+            className="service-grid border-b border-gray-light grid py-8"
+            key={index}
+          >
+            <h2 className="mb-4 text-2xl md:pr-8">{item.serviceTitle}</h2>
+            <div
+              className="service-description"
+              dangerouslySetInnerHTML={{ __html: item.description }}
+            />
+          </li>
+        ))}
+      </ul>
     </>
   )
 }
