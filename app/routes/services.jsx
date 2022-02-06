@@ -24,16 +24,16 @@ const GetAllContent = gql`
   }
 `
 
-export function headers() {
-  return {
-    'cache-control': 'max-age=3600, public',
-  }
-}
-
 export let loader = async () => {
   const { pageBy } = await client.request(GetAllContent)
 
   return json({ pageBy })
+}
+
+export function headers({ loaderHeaders }) {
+  return {
+    'Cache-Control': 'max-age=3600, public',
+  }
 }
 
 export let meta = () => {

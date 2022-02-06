@@ -61,6 +61,12 @@ export let loader = async ({ params }) => {
   return json({ tagList, currentTag, workList })
 }
 
+export function headers({ loaderHeaders }) {
+  return {
+    'Cache-Control': 'max-age=3600, public',
+  }
+}
+
 export let meta = ({ data }) => {
   if (!data) {
     return {

@@ -39,6 +39,12 @@ export let loader = async () => {
   return json({ pageBy, portfolio })
 }
 
+export function headers({ loaderHeaders }) {
+  return {
+    'Cache-Control': 'max-age=3600, public',
+  }
+}
+
 export let meta = () => {
   return {
     title: 'Front-End Development | Ten 1 Seven Studio',
