@@ -53,6 +53,7 @@ export default function Index() {
     <>
       <WorkThumbnails
         thumbnails={portfolio.edges}
+        loading="eager"
         classes="homepage-work
         border-b
         border-gray-light

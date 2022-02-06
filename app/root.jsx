@@ -5,7 +5,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
 } from 'remix'
 
 import tailwindStyles from './index.css'
@@ -71,64 +70,6 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
-      </body>
-    </html>
-  )
-}
-
-// 404
-export function CatchBoundary() {
-  const caught = useCatch()
-
-  return (
-    <html dir="ltr" lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
-        <title>{caught.statusText}</title>
-      </head>
-      <body>
-        <Header />
-
-        <main className="bg-white p-6 sm:p-8 md:p-10">
-          <CatchError errorText={caught.statusText} />
-        </main>
-
-        <Footer />
-
-        <Scripts />
-      </body>
-    </html>
-  )
-}
-
-// Uncaught exception
-export function ErrorBoundary({ error }) {
-  console.error(error)
-
-  const errorText = 'Whoops!'
-
-  return (
-    <html dir="ltr" lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
-        <title>{errorText}</title>
-      </head>
-      <body>
-        <Header />
-
-        <main className="bg-white p-6 sm:p-8 md:p-10">
-          <CatchError errorText={errorText} />
-        </main>
-
-        <Footer />
-
-        <Scripts />
       </body>
     </html>
   )

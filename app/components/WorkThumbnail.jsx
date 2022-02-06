@@ -2,7 +2,7 @@
 
 import { Link } from 'remix'
 
-const WorkThumbnail = ({ thumbnail }) => {
+const WorkThumbnail = ({ loading, thumbnail }) => {
   return (
     <li key={thumbnail.uri}>
       <Link className="group block relative no-underline" to={thumbnail.uri}>
@@ -11,7 +11,7 @@ const WorkThumbnail = ({ thumbnail }) => {
           alt={thumbnail.work.thumbnail.altText}
           height="215"
           width="260"
-          loading="lazy"
+          loading={loading}
         />
         <span
           className="

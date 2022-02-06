@@ -87,7 +87,11 @@ export default function Work() {
       />
 
       <TagList tags={tagList.edges} currentTag={currentTag.edges[0].node} />
-      <WorkThumbnails thumbnails={workList.edges} classes="my-8" />
+      <WorkThumbnails
+        thumbnails={workList.edges}
+        loading="lazy"
+        classes="my-8"
+      />
     </>
   )
 }

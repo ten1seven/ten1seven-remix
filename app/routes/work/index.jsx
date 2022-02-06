@@ -74,7 +74,11 @@ export default function Work() {
       )}
 
       <TagList tags={tags.edges} currentTag="" />
-      <WorkThumbnails thumbnails={portfolio.edges} classes="my-8" />
+      <WorkThumbnails
+        thumbnails={portfolio.edges}
+        loading="lazy"
+        classes="my-8"
+      />
     </>
   )
 }

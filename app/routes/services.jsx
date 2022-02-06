@@ -24,6 +24,12 @@ const GetAllContent = gql`
   }
 `
 
+export function headers() {
+  return {
+    'cache-control': 'max-age=3600, public',
+  }
+}
+
 export let loader = async () => {
   const { pageBy } = await client.request(GetAllContent)
 
