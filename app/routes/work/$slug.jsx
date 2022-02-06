@@ -76,37 +76,56 @@ export default function Index() {
     <>
       <PageTitle link="/work" breadcrumb="Work" title={workBy.title} />
 
-      <pre>{JSON.stringify(workBy, null, 2)}</pre>
+      <div className="work-detail">
+        {!!workBy.work.description && (
+          <div
+            className="work-detail__desc wysiwyg"
+            dangerouslySetInnerHTML={{ __html: workBy.work.description }}
+          />
+        )}
 
-      <p>{workBy.work.client}</p>
-      <p>
-        <a href={workBy.work.website}>{workBy.work.displayUrl}</a>
-      </p>
+        <div className="work-detail__client pr-4 text-base">
+          <h2 className="font-bold text-gray-medium">Client</h2>
+          <p>{workBy.work.client}</p>
 
-      {!!workBy.work.description && (
-        <div
-          className="wysiwyg"
-          dangerouslySetInnerHTML={{ __html: workBy.work.description }}
-        />
-      )}
+          <h2 className="font-bold mt-4 text-gray-medium">Website</h2>
+          <p>
+            <a
+              className="block overflow-ellipsis overflow-hidden whitespace-nowrap"
+              href={workBy.work.website}
+            >
+              {workBy.work.displayUrl}
+            </a>
+          </p>
+        </div>
+        <div className="work-detail__tags pr-4 text-base">
+          <h2 className="font-bold text-gray-medium">Tags</h2>
+          <ul>
+            {workBy.tags.edges.map(({ node }) => (
+              <li key={node.id}>
+                <Link to={`/work${node.uri}`} prefetch="intent">
+                  <span>{node.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
-      <ul>
-        {workBy.tags.edges.map(({ node }) => (
-          <li key={node.id}>
-            <Link to={`/work${node.uri}`} prefetch="intent">
-              {node.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      <pre>{JSON.stringify(workBy.work.images, null, 2)}</pre>
-
-      <ul>
+      <h2 className="sr-only">Images</h2>
+      <ul className="work-screenshots">
         {workBy.work.images.map(({ image }) => (
-          <li key={image.id}>
+          <li className="border-t-2 border-gray-light my-8 pt-8" key={image.id}>
             <img
-              src={`https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress`}
+              sizes="(max-width: 830px) 100vw, 830px"
+              srcSet={`https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress&w=330 330w,
+              https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress&w=443 443w,
+              https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress&w=600 600w,
+              https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress&w=668 668w,
+              https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress&w=731 731w,
+              https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress&w=811 811w,
+              https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress&w=830 830w`}
+              src={`https://ten1seven.imgix.net/${image.mediaDetails.file}?auto=format,compress&w=600`}
               alt={image.altText}
               height={image.mediaDetails.height}
               width={image.mediaDetails.width}
